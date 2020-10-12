@@ -13,7 +13,7 @@ class DSIApp extends StatelessWidget {
     return MaterialApp(
       title: 'DSI App',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: DSIPage(title: 'My First App - DSI/BSI/UFRPE'),
@@ -37,6 +37,10 @@ class _DSIPageState extends State<DSIPage> {
     'PARA VÉI!',
     'QUE DEDO NERVOSO!',
     'PRA QUE ISSO?!',
+    'PARA BOY',
+    'PARA BOYZA',
+    'RESPEITA OS MULEK',
+    'TEM ENTREGA PRA FAZER NÃO?',
   ];
   int _counter = 0;
 
@@ -70,7 +74,7 @@ class _DSIPageState extends State<DSIPage> {
     //para incluir novas imagens, basta incluir novas entradas nesta seção.
     String result;
     if (_counter == 0) {
-      result = '';
+      result = 'images/inicio.jpg';
     } else if (_counter > 5) {
       result = 'images/jadeu.png';
     } else if (_counter > 2) {
@@ -103,7 +107,7 @@ class _DSIPageState extends State<DSIPage> {
               Spacer(),
               FlatButton(
                 onPressed: _resetCounter,
-                color: Colors.green,
+                color: Colors.red,
                 child: Text(
                   'Reset',
                   style: TextStyle(color: Colors.white, fontSize: 16.0),

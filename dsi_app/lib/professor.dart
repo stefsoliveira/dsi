@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 
 class Professor extends Pessoa {
   String disciplina;
-  
-  Professor({cpf, nome, endereco, this.disciplina})
+  String idLattes;
+
+  Professor({cpf, nome, endereco, this.disciplina, this.idLattes})
       : super(cpf: cpf, nome: nome, endereco: endereco);
 }
 
@@ -84,7 +85,8 @@ class ListProfessorPageState extends State<ListProfessorPage> {
         subtitle: Column(
           children: <Widget>[
             Text('id. ${professor.id} (JA APRENDEMOS QUE NAO SE DEVE EXIBIR O ID DE UM REGISTRO!)'),
-            Text('disciplina:. ${professor.disciplina}'),
+            Text('disciplina:. ${professor.disciplina}', textAlign: TextAlign.right,),
+            Text('idLattes:. ${professor.idLattes}',textAlign: TextAlign.right,),
           ],
         ),
         onTap: () => dsiHelper.go(context, "/maintain_professor", arguments: professor),
@@ -150,6 +152,15 @@ class MaintainProfessorPage extends StatelessWidget {
             initialValue: professor.disciplina,
             onSaved: (newValue) => professor.disciplina = newValue,
               ),
+          TextFormField(
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(labelText: 'ID no Lattes*'),
+            validator: (String value) {
+              return value.isEmpty ? 'É necessário adicionar um id.' : null;
+            },
+            initialValue: professor.idLattes,
+            onSaved: (newValue) => professor.idLattes = newValue,
+          ),
         ],
       ),
     );

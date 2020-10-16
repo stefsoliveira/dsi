@@ -73,6 +73,7 @@ void _initDb() {
   for (var i = 1; i <= 20; i++) {
     var matricula = i.toString().padLeft(18, '0');
     var disciplina = i.toString().padLeft(18, '0');
+    var idLattes = i.toString().padLeft(5, '0');
 
     var cpfAluno = '${matricula.substring(0, 3)}.'
         '${matricula.substring(3, 6)}.'
@@ -85,16 +86,17 @@ void _initDb() {
       endereco: 'Rua $i, s/n.',
       matricula: matricula,
     );
-    var cpfProf = '${matricula.substring(9, 18)}.'
-        '${matricula.substring(9, 12)}.'
-        '${matricula.substring(12, 15)}-'
-        '${matricula.substring(18)}';
+    var cpfProf = '${disciplina.substring(9, 12)}.'
+        '${disciplina.substring(12, 15)}.'
+        '${disciplina.substring(15, 18)}-'
+        '${disciplina.substring(18)}';
 
     var professor = Professor(
       cpf: cpfProf,
       nome: 'Professor $i',
       endereco: 'Rua $i, s/n.',
       disciplina: disciplina,
+      idLattes: idLattes,
     );
     //Observe que como Aluno é uma subclasse de Pessoa, o método 'save' do
     //controlador de pessoa pode receber um aluno. Leia sobre polimorfismo de

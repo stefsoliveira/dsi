@@ -85,8 +85,8 @@ class ListProfessorPageState extends State<ListProfessorPage> {
         subtitle: Column(
           children: <Widget>[
             Text('id. ${professor.id} (JA APRENDEMOS QUE NAO SE DEVE EXIBIR O ID DE UM REGISTRO!)'),
-            Text('disciplina:. ${professor.disciplina}', textAlign: TextAlign.right,),
-            Text('idLattes:. ${professor.idLattes}',textAlign: TextAlign.right,),
+            Text('disciplina:. ${professor.disciplina}'),
+            Text('idLattes:. ${professor.idLattes}'),
           ],
         ),
         onTap: () => dsiHelper.go(context, "/maintain_professor", arguments: professor),

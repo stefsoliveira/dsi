@@ -90,7 +90,7 @@ class ListAlunoPageState extends State<ListAlunoPage> {
         title: Text(aluno.nome),
         subtitle: Column(
           children: <Widget>[
-            Text('id. ${aluno.id} (NUNCA APRENSETE O ID DE UM REGISTRO!)'),
+            Text('id. ${aluno.id} (NUNCA APRESENTE O ID DE UM REGISTRO!)'),
             SizedBox(width: 8.0),
             Text('mat. ${aluno.matricula}'),
           ],

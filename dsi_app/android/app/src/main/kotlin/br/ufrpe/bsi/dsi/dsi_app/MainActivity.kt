@@ -1,4 +1,4 @@
-package com.example.dsi_app
+package br.ufrpe.bsi.dsi.dsi_app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,20 +1,21 @@
+import 'dart:convert';
+
 import 'package:dsi_app/aluno.dart';
 import 'package:dsi_app/constants.dart';
 import 'package:dsi_app/home.dart';
 import 'package:dsi_app/login.dart';
 import 'package:dsi_app/pessoa.dart';
-import 'package:dsi_app/professor.dart';
 import 'package:dsi_app/register.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  _initDb();
   runApp(DSIApp());
 }
 
 class DSIApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    _initDb(context);
     return MaterialApp(
       title: Constants.appName,
       theme: _buildThemeData(),
@@ -36,9 +37,9 @@ class DSIApp extends StatelessWidget {
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5.0),
+          borderRadius: Constants.defaultBorderRadius,
         ),
-        contentPadding: Constants.paddingMedium,
+        contentPadding: Constants.insetsMedium,
         labelStyle: TextStyle(
           color: Colors.black,
           fontSize: 16.0,
@@ -48,7 +49,7 @@ class DSIApp extends StatelessWidget {
         buttonColor: Colors.green,
         textTheme: ButtonTextTheme.primary,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
+          borderRadius: Constants.defaultBorderRadius,
         ),
       ),
     );
@@ -63,45 +64,34 @@ class DSIApp extends StatelessWidget {
       '/maintain_pessoa': (context) => MaintainPessoaPage(),
       '/list_aluno': (context) => ListAlunoPage(),
       '/maintain_aluno': (context) => MaintainAlunoPage(),
-      '/list_professor': (context) => ListProfessorPage(),
-      '/maintain_professor': (context) => MaintainProfessorPage(),
     };
   }
 }
 
-void _initDb() {
-  for (var i = 1; i <= 20; i++) {
-    var matricula = i.toString().padLeft(18, '0');
-    var disciplina = i.toString().padLeft(18, '0');
-    var idLattes = i.toString().padLeft(5, '0');
+void _initDb(context) {
+  //TIP Ao invés de criar o aluno manualmente, passamos a criar a partir de um
+  //arquivo que armazena todos os alunos no formato JSON.
+  //Este arquivo é declarado como um asset no pubspec.yaml.
+  //
+  //A leitura do arquivo do bundle retorna um objeto do tipo "Future". Este tipo
+  //de objeto é 'assíncrono' ou seja, o aplicativo continua sendo usado enquanto
+  //ele termina o seu processamento. Isto é necessário para ações 'pesadas' como
+  //a leitura de um arquivo, ou a chamada web. Caso isso não fosse feito, o
+  //aplicativo (e o celular) ficariam travados até o término do processamento.
+  //Assim, deve-se implementar a funcionalidade que se deseja fazer ao término
+  //do processamento, no método 'then'. No nosso caso, o salvamento dos dados.
+  //
+  //Observe ainda que não está mais sendo usado o 'for'. Agora já estamos
+  //usando o método 'forEach' das listas, que chama uma função para cada
+  //elemento da lista.
+  Future<String> data = DefaultAssetBundle.of(context).loadString('db.json');
+  data.then((value) => _processData(value));
+}
 
-    var cpfAluno = '${matricula.substring(0, 3)}.'
-        '${matricula.substring(3, 6)}.'
-        '${matricula.substring(6, 9)}-'
-        '${matricula.substring(9)}';
-
-    var aluno = Aluno(
-      cpf: cpfAluno,
-      nome: 'Aluno $i',
-      endereco: 'Rua $i, s/n.',
-      matricula: matricula,
-    );
-    var cpfProf = '${disciplina.substring(9, 12)}.'
-        '${disciplina.substring(12, 15)}.'
-        '${disciplina.substring(15, 18)}-'
-        '${disciplina.substring(18)}';
-
-    var professor = Professor(
-      cpf: cpfProf,
-      nome: 'Professor $i',
-      endereco: 'Rua $i, s/n.',
-      disciplina: disciplina,
-      idLattes: idLattes,
-    );
-    //Observe que como Aluno é uma subclasse de Pessoa, o método 'save' do
-    //controlador de pessoa pode receber um aluno. Leia sobre polimorfismo de
-    //subtipo (ou simplesmente polimorfismo).
-    pessoaController.save(aluno);
-    pessoaController.save(professor);
-  }
+_processData(jsonString) {
+  Map<String, dynamic> jsonMaps = jsonDecode(jsonString);
+  jsonMaps['alunos']
+      .map<Aluno>((json) => Aluno.fromJson(json))
+      .toList()
+      .forEach((aluno) => alunoController.save(aluno));
 }

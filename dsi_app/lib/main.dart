@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 
 import 'package:dsi_app/aluno.dart';
 import 'package:dsi_app/constants.dart';
@@ -6,7 +7,7 @@ import 'package:dsi_app/home.dart';
 import 'package:dsi_app/login.dart';
 import 'package:dsi_app/pessoa.dart';
 import 'package:dsi_app/register.dart';
-import 'package:flutter/material.dart';
+import 'package:dsi_app/professor.dart';
 
 void main() {
   runApp(DSIApp());
@@ -64,6 +65,9 @@ class DSIApp extends StatelessWidget {
       '/maintain_pessoa': (context) => MaintainPessoaPage(),
       '/list_aluno': (context) => ListAlunoPage(),
       '/maintain_aluno': (context) => MaintainAlunoPage(),
+      '/list_professor': (context) => ListProfessorPage(),
+      '/maintain_professor': (context) => MaintainProfessorPage(),
+
     };
   }
 }
@@ -94,4 +98,8 @@ _processData(jsonString) {
       .map<Aluno>((json) => Aluno.fromJson(json))
       .toList()
       .forEach((aluno) => alunoController.save(aluno));
+  jsonMaps['professores']
+      .map<Professor>((json) => Professor.fromJson(json))
+      .toList()
+      .forEach((professor) => professorController.save(professor));
 }

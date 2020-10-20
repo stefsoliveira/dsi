@@ -107,13 +107,10 @@ class DsiScaffold extends StatelessWidget {
             onTap: () => dsiHelper.go(context, '/list_aluno'),
           ),
           ListTile(
-            leading: Icon(Icons.school),
-            title: Text('Professores'),
-            onTap: () => dsiHelper.showMessage(
-              context: context,
-              message: 'Falta implementar.',
+              leading: Icon(Icons.school),
+              title: Text('Professores'),
+              onTap: () => dsiHelper.go(context, '/list_professor'),
             ),
-          ),
           Divider(),
           ListTile(
             leading: Icon(Icons.exit_to_app),
